@@ -571,7 +571,10 @@ public class BLE
 		final BluetoothAdapter.LeScanCallback callback = this;
 
 		// Call stopLeScan without checking if bluetooth is on.
-		adapter.stopLeScan(callback);
+		if (null != adapter)
+		{
+			adapter.stopLeScan(callback);
+		}
 
 		/*
 		// TODO: Since there is no callback given to stopScan, there can be other
