@@ -75,6 +75,8 @@ public class BLE
 	private Context mContext;
 
 	private boolean mRegisteredReceivers = false;
+	private BluetoothStateReceiver mBluetoothStateReceiver;
+	private BondStateReceiver mBondStateReceiver;
 
 	// Called when the device's Bluetooth powers on.
 	// Used by startScan() and connect() to wait for power-on if Bluetooth was
@@ -116,15 +118,30 @@ public class BLE
 
 		if (!mRegisteredReceivers)
 		{
+			mBluetoothStateReceiver = new BluetoothStateReceiver();
 			mContext.registerReceiver(
-				new BluetoothStateReceiver(),
+				mBluetoothStateReceiver,
 				new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
 
+			mBondStateReceiver = new BondStateReceiver();
 			mContext.registerReceiver(
-				new BondStateReceiver(),
+				mBondStateReceiver,
 				new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
 
 			mRegisteredReceivers = true;
+		}
+	}
+
+	@Override
+	public void onDestroy() {
+		if (mRegisteredReceivers) {
+			webView.getContext().unregisterReceiver(mBluetoothStateReceiver);
+			mBluetoothStateReceiver = null;
+
+			webView.getContext().unregisterReceiver(mBondStateReceiver);
+			mBondStateReceiver = null;
+
+			mRegisteredReceivers = false;
 		}
 	}
 
