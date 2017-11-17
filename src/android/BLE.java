@@ -339,7 +339,9 @@ public class BLE
 			}
 			else {
 				// System Location is off, send callback error.
-				mScanCallbackContext.error("System Location is off");
+				if (null != mScanCallbackContext) {
+					mScanCallbackContext.error("System Location is off");
+				}
 				mScanCallbackContext = null;
 			}
 		}
@@ -408,7 +410,9 @@ public class BLE
 			else
 			{
 				// Permission NOT ok, send callback error.
-				mScanCallbackContext.error("Location permission not granted");
+				if (null != mScanCallbackContext) {
+					mScanCallbackContext.error("Location permission not granted");
+				}
 				mScanCallbackContext = null;
 			}
 		}
@@ -467,7 +471,9 @@ public class BLE
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialogInterface, int i) {
 						// Permission NOT ok, send callback error.
-						mScanCallbackContext.error("System Location is off");
+						if (null != mScanCallbackContext) {
+							mScanCallbackContext.error("System Location is off");
+						}
 						mScanCallbackContext = null;
 					}
 				});
