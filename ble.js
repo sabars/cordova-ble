@@ -314,7 +314,7 @@ exports.parseAdvertisementData = function(device)
 				}
 				for (var j=0; j<UUID_format[l]; j++, k++)
 				{
-					string += toHexString(array[offset+k], 1);
+					string += toHexString(array[offset+15-k], 1);
 				}
 			}
 			return string;
